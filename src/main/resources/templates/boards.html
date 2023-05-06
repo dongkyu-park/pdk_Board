@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+
+    <style>
+      table {
+        width: 100%;
+      }
+      table, th, td {
+        border: 1px solid #bcbcbc;
+      }
+    </style>
+</head>
+
+<body>
+<div>
+
+    <div>
+        <h2>게시글 목록</h2>
+    </div>
+
+    <form th:object="${boards}" method="get">
+        <div class="row">
+            <div class="col">
+                <div class="col">
+                    <button onclick="location.href='addForm.html'"
+                            th:onclick="|location.href='@{/board/add}'|"
+                            type="button">게시글 등록
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <hr class="my-4">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>제목</th>
+                <th>내용</th>
+                <th>작성일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="board : ${boards}">
+                <td><a href="board.html" th:href="@{|/board/${board.id}|}" th:text="${board.id}">번호</a></td>
+                <td><a href="board.html" th:href="@{|/board/${board.id}|}" th:text="${board.title}">제목</a></td>
+                <td th:text="${board.content}">내용</td>
+                <td th:text="${board.createDt}">작성일</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

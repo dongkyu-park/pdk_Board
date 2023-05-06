@@ -27,6 +27,10 @@ public class BoardService {
         return savedId;
     }
 
+    public List<Board> findBoards() {
+        return boardRepository.findAll();
+    }
+
     private void saveAndUpdateUseWordCount(Board board) {
         String[] arrWords = board.getContent().trim().split(" ");
         List<String> words = Arrays.stream(arrWords).distinct().toList();

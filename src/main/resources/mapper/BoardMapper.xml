@@ -71,4 +71,15 @@
             update_dt = NOW()
     </update>
 
+    <select id="findAll" resultType="Board">
+        SELECT
+            id,
+            title,
+            content,
+            create_dt,
+            update_dt
+        FROM
+            rboard
+    </select>
+
 </mapper>

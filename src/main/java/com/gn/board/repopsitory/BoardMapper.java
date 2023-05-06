@@ -16,4 +16,6 @@ public interface BoardMapper {
     void saveAndUpdateUseWordCount(List<String> words);
 
     int updateBoardTotal(Long count);
+
+    List<Board> findAll();
 }
