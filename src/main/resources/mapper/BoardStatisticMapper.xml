@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gn.board.repository.BoardStatisticMapper">
+
+    <insert id="saveContentWordCount">
+        INSERT INTO
+            rboard_content_word_counter (
+                board_id,
+                word,
+                word_count,
+                create_dt,
+                update_dt
+            )
+        VALUES
+        <foreach collection="wordCounts" item="wordCount" index="word" separator=",">
+            (
+                #{id},
+                #{word},
+                #{wordCount},
+                NOW(),
+                NOW()
+            )
+        </foreach>
+    </insert>
+
+    <insert id = "saveAndUpdateUseWordCount">
+        INSERT INTO
+            rboard_use_word_counter (
+                word,
+                word_count,
+                create_dt,
+                update_dt
+            )
+        VALUES
+        <foreach collection="words" item="word" separator=",">
+            (
+                #{word},
+                1,
+                NOW(),
+                NOW()
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+            word_count = word_count + 1,
+            update_dt = NOW()
+    </insert>
+
+    <update id="updateBoardCount">
+        UPDATE
+            rboard_counter
+        SET
+            b_count = b_count + #{count},
+            update_dt = NOW()
+    </update>
+
+    <select id="getBoardCount" resultType="Long">
+        SELECT
+            b_count
+        FROM
+            rboard_counter
+    </select>
+
+    <select id="findRelatedWords" resultType="String">
+        SELECT
+            word
+        FROM
+            rboard_use_word_counter
+        WHERE
+        <![CDATA[
+            word_count <= #{standardNumberOfAssociateWord}
+        ]]>
+    </select>
+
+    <select id="findRelatedBoard" resultType="RelatedBoard">
+        SELECT
+            A.board_id,
+            A.word,
+            A.word_count,
+            B.title,
+            B.content,
+            B.create_dt,
+            B.update_dt
+        FROM
+            rboard_content_word_counter A
+        LEFT JOIN
+            rboard B
+        ON
+            A.board_id = B.id
+        WHERE
+            A.word
+        IN
+        <foreach collection="relatedWords" item="word" separator="," open="(" close=")">
+            #{word}
+        </foreach>
+    </select>
+
+</mapper>

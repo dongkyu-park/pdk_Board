@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gn.board.repopsitory.BoardMapper">
+<mapper namespace="com.gn.board.repository.BoardMapper">
 
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
@@ -20,58 +20,7 @@
             )
     </insert>
 
-    <insert id="saveContentWordCount">
-        INSERT INTO
-            rboard_content_word_counter (
-                board_id,
-                word,
-                word_total,
-                create_dt,
-                update_dt
-            )
-        VALUES
-        <foreach collection="wordCounts" item="wordTotal" index="word" separator=",">
-            (
-                #{id},
-                #{word},
-                #{wordTotal},
-                NOW(),
-                NOW()
-            )
-        </foreach>
-    </insert>
-
-    <insert id = "saveAndUpdateUseWordCount">
-        INSERT INTO
-            rboard_use_word_counter (
-                word,
-                word_total,
-                create_dt,
-                update_dt
-            )
-        VALUES
-        <foreach collection="words" item="word" separator=",">
-            (
-                #{word},
-                1,
-                NOW(),
-                NOW()
-            )
-        </foreach>
-        ON DUPLICATE KEY UPDATE
-            word_total = word_total + 1,
-            update_dt = NOW()
-    </insert>
-
-    <update id="updateBoardTotal">
-        UPDATE
-            rboard_total_counter
-        SET
-            total = total + #{count},
-            update_dt = NOW()
-    </update>
-
-    <select id="findAll" resultType="Board">
+    <select id="findBoards" resultType="Board">
         SELECT
             id,
             title,
@@ -80,6 +29,29 @@
             update_dt
         FROM
             rboard
+        WHERE
+            1=1
+        <if test="boardIds.size() != 0">
+            AND
+                id
+            IN
+            <foreach collection="boardIds" item="id" separator="," open="(" close=")">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="findById" resultType="Board">
+        SELECT
+            id,
+            title,
+            content,
+            create_dt,
+            update_dt
+        FROM
+            rboard
+        WHERE
+            id = #{boardId}
     </select>
 
 </mapper>

@@ -1,6 +1,5 @@
 package com.gn.board.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,10 +7,13 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class Board {
+public class RelatedBoard {
 
-    private Long id;
+    private Long boardId;
+
+    private String word;
+
+    private int wordCount;
 
     private String title;
 

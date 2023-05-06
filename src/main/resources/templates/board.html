@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+
+    <style>
+      table {
+        width: 100%;
+      }
+      table, th, td {
+        border: 1px solid #bcbcbc;
+      }
+    </style>
+</head>
+<body>
+
+<div>
+    <div>
+        <h2>게시글 상세</h2>
+    </div>
+
+    <div>
+        <label for="boardId">ID</label>
+        <div>
+            <input type="text" id="boardId" name="boardId" value="번호" th:value="${board.id}" readonly>
+        </div>
+    </div>
+    <div>
+        <label for="title">제목</label>
+        <div>
+            <input type="text" id="title" name="title" value="제목" th:value="${board.title}" readonly>
+        </div>
+    </div>
+    <div>
+        <label for="content">내용</label>
+        <div>
+            <textarea rows="20" cols="200" id="content" name="content" value="내용" th:value="${board.content}" th:text="${board.content}" readonly></textarea>
+        </div>
+    </div>
+    <div>
+        <label for="createDt">작성일</label>
+        <div>
+            <input type="text" id="createDt" name="createDt" value="작성일" th:value="${board.createDt}" readonly>
+        </div>
+    </div>
+
+    <hr>
+    <div>
+        <h2>연관 게시글 목록</h2>
+    </div>
+
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>제목</th>
+                <th>내용</th>
+                <th>작성일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="relatedBoard : ${relatedBoards}">
+                <td><a href="board.html" th:href="@{|/board/${board.id}|}" th:text="${relatedBoard.Board.id}">번호</a></td>
+                <td><a href="board.html" th:href="@{|/board/${board.id}|}" th:text="${relatedBoard.Board.title}">제목</a></td>
+                <td th:text="${relatedBoard.Board.content}">내용</td>
+                <td th:text="${relatedBoard.Board.createDt}">작성일</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr>
+    <div>
+        <div>
+            <button onclick="location.href='boards.html'"
+                    th:onclick="|location.href='@{/}'|"
+                    type="button">목록으로</button>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
