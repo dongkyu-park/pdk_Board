@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+</head>
+
+<script>
+    function beforeSubmit() {
+        let titleMsg = document.getElementById("title");
+        let contentMsg = document.getElementById("content");
+
+        if (titleMsg.value.length == 0) {
+            alert('제목을 입력하세요.');
+            return false;
+        }
+        if (contentMsg.value.length == 0) {
+            alert('내용을 입력하세요.');
+            return false;
+        }
+        return true;
+    }
+</script>
+<body>
+
+<div>
+
+    <div>
+        <h2>게시글 등록</h2>
+    </div>
+
+    <form th:action="@{/board/add}" method="post" onsubmit="return beforeSubmit();">
+        <div>
+            <label for="title">제목</label>
+            <div>
+                <input type="text" id="title" name="title" placeholder="제목을 입력하세요.">
+            </div>
+        </div>
+        <div>
+            <label for="content">내용</label>
+            <div>
+                <textarea rows="20" cols="200" id="content" name="content" placeholder="내용을 입력하세요."></textarea>
+            </div>
+        </div>
+
+        <div>
+            <button type="submit">게시글 등록</button>
+            <button type="button">취소</button>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>
