@@ -79,7 +79,7 @@ public class BoardService {
                 });
 
         List<RelatedBoardInfo> result = combineSameBoardId.entrySet().stream()
-                .filter(e -> e.getValue().getRelatedWordCount() >= STANDARD_COUNT_OF_RELATED_BOARD_HAS_SAME_WORD) // 연관 단어가 2회 이상 사용된 경우만 필터링
+                .filter(e -> e.getValue().getRelatedWordTotal() >= STANDARD_COUNT_OF_RELATED_BOARD_HAS_SAME_WORD) // 연관 단어가 2회 이상 사용된 경우만 필터링
                 .filter(e -> e.getValue().getBoard().getId() != board.getId()) // 클릭한 게시글은 연관 게시글에서 제외
                 .sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue()))
                 .map(e -> e.getValue())

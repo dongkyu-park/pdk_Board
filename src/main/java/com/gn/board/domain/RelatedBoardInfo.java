@@ -10,18 +10,18 @@ public class RelatedBoardInfo implements Comparable<RelatedBoardInfo> {
 
     private Board board;
 
-    private int relatedWordCount;
+    private int relatedWordTotal;
 
     private final PriorityQueue<WordCount> relatedWordEachCount = new PriorityQueue<>();
 
     public RelatedBoardInfo(Long id, String title, String content, LocalDateTime createDt, LocalDateTime updateDt, String word, int wordCount) {
         this.board = new Board(id, title, content, createDt, updateDt);
-        this.relatedWordCount = 1;
+        this.relatedWordTotal = 1;
         this.relatedWordEachCount.add(new WordCount(word, wordCount));
     }
 
     public void increaseRelatedWordCount() {
-        this.relatedWordCount++;
+        this.relatedWordTotal++;
     }
 
     /**
@@ -33,10 +33,10 @@ public class RelatedBoardInfo implements Comparable<RelatedBoardInfo> {
      */
     @Override
     public int compareTo(RelatedBoardInfo relatedBoardInfo) {
-        if (this.relatedWordCount > relatedBoardInfo.getRelatedWordCount()) {
+        if (this.relatedWordTotal > relatedBoardInfo.getRelatedWordTotal()) {
             return 1;
         }
-        if (this.relatedWordCount < relatedBoardInfo.getRelatedWordCount()) {
+        if (this.relatedWordTotal < relatedBoardInfo.getRelatedWordTotal()) {
             return -1;
         }
         return selectPriorityRelatedBoard(relatedBoardInfo);
