@@ -44,7 +44,9 @@
 
         <div>
             <button type="submit">게시글 등록</button>
-            <button type="button">취소</button>
+            <button onclick="location.href='boards.html'"
+                    th:onclick="|location.href='@{/}'|"
+                    type="button">취소</button>
         </div>
     </form>
 
